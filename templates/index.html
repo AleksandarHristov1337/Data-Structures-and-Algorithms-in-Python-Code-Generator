@@ -37,16 +37,14 @@
     <h1 id="form-title" class="text-4xl font-extrabold text-center text-blue-600 mb-8">
         Gemini Code Analysis UI
     </h1>
-<a 
-  href="{{ url_for('execute') }}"
-  class="inline-block bg-green-600 text-white text-lg font-medium px-6 py-3 rounded hover:bg-green-700 transition mt-4 mb-8"
->
-  Try DSA Code Executor
-</a>
+    <a href="{{ url_for('execute') }}"
+        class="inline-block bg-green-600 text-white text-lg font-medium px-6 py-3 rounded hover:bg-green-700 transition mt-4 mb-8">
+        Try DSA Code Executor
+    </a>
 
     <div id="form-container" class="w-full max-w-4xl bg-white p-8 rounded-lg shadow-lg">
 
-        <form method="POST" id="analyze-form" class="space-y-6">
+        <form method="POST" id="analyze-form" action="/start-analysis" class="space-y-6">
 
             <div>
                 <label for="dataset" class="block text-lg font-semibold mb-2 text-gray-700">Dataset:</label>

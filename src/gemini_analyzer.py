@@ -1,4 +1,5 @@
 import os
+import time
 import google.generativeai as genai
 from dotenv import load_dotenv
 
@@ -11,8 +12,13 @@ GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
 genai.configure(api_key=GOOGLE_API_KEY)
 
-def analyze_with_gemini(code, dataset):
+def analyze_with_gemini(code, dataset, progress_callback=None):
     model = genai.GenerativeModel(MODEL_NAME)
+
+    if progress_callback:
+        progress_callback(10)
+    time.sleep(0.2)
+
     prompt = f"""
 You are a Python performance expert.
 
@@ -36,8 +42,21 @@ Tasks:
 6. Print the optimized code with improvements.
 """
 
+    if progress_callback:
+        progress_callback(40)
+    time.sleep(0.5)
+
     print("\n⏳ Sending code to Gemini for analysis...\n")
     response = model.generate_content(prompt)
+
+    if progress_callback:
+        progress_callback(80)
+    time.sleep(0.3)
+
     print("\n📊 Gemini Analysis Output:\n")
     print(response.text)
+
+    if progress_callback:
+        progress_callback(100)
+
     return response.text

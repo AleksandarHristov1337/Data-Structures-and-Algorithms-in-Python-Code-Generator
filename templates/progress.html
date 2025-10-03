@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Analyzing...</title>
+    <script>
+        const ts = "{{ ts }}";
+        const source = new EventSource("/progress/" + ts);
+        source.onmessage = function (event) {
+            const progress = parseInt(event.data);
+            document.getElementById("progress-bar").style.width = progress + "%";
+            document.getElementById("status").textContent = "Analyzing... " + progress + "%";
+            if (progress >= 100) {
+                source.close();
+                setTimeout(() => {
+                    window.location.href = "/result/" + ts;
+                }, 800);
+            }
+        };
+        source.onmessage = function (event) {
+    const data = event.data;
+
+    if (data === "error") {
+        document.getElementById("status").textContent = "❌ Analysis failed.";
+        document.getElementById("progress-bar").style.backgroundColor = "#e53e3e";
+        setTimeout(() => {
+            window.location.href = "/error/{{ ts }}";
+        }, 1500);
+        return;
+    }
+
+    const progress = parseInt(data);
+    document.getElementById("progress-bar").style.width = progress + "%";
+    document.getElementById("status").textContent = "Analyzing... " + progress + "%";
+
+    if (progress >= 100) {
+        source.close();
+        setTimeout(() => {
+            window.location.href = "/result/{{ ts }}";
+        }, 800);
+    }
+};
+
+    </script>
+    <style>
+        .bar-bg {
+            width: 80%;
+            background: #eee;
+            height: 25px;
+            border-radius: 10px;
+            margin: 40px auto;
+        }
+
+        .bar-fill {
+            height: 100%;
+            width: 0%;
+            background: #3498db;
+            border-radius: 10px;
+            transition: width 0.4s ease;
+        }
+    </style>
+</head>
+
+<body style="text-align:center; font-family:sans-serif;">
+    <h2 id="status">Analyzing... 0%</h2>
+    <div class="bar-bg">
+        <div class="bar-fill" id="progress-bar"></div>
+    </div>
+</body>
+
+</html>
