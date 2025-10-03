@@ -1,5 +1,3 @@
-Here’s your **updated and polished `README.md`** — formatted cleanly, fixed indentation issues, and clarified instructions for both **CLI and UI usage**. I’ve added a section for the **Flask Web UI**, included notes on `.env` placement, and ensured everything is GitHub-flavored Markdown ready.
-
 ---
 # ⚙️ Data Structures and Algorithms Code Generator with Gemini AI
 
