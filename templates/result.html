@@ -13,6 +13,12 @@
     <p class="text-gray-600 mb-6">
       Your code has been analyzed. Click the button below to view your report:
     </p>
+     <a 
+      href="/"
+      class="inline-block bg-blue-600 text-white text-lg font-medium px-6 py-3 rounded hover:bg-blue-700 transition"
+    >
+      Go Back
+    </a>
     <a 
       href="{{ url_for('download_report', filename=report_name) }}"
       class="inline-block bg-blue-600 text-white text-lg font-medium px-6 py-3 rounded hover:bg-blue-700 transition"
@@ -20,6 +26,7 @@
     >
       View Report
     </a>
+    
   </div>
 
 </body>
