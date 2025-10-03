@@ -97,7 +97,7 @@ your-repo/
 ├── reports/                   # Output: user_code_*.txt & gemini_analysis_*.html
 ├── .env                       # API key config
 ├── requirements.txt           # Python dependencies
-└── README.md
+└── README.md                  # This file 
 ```
 
 ---
