@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Report Generated</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+  <div class="bg-white shadow-lg rounded-lg p-8 text-center max-w-md w-full">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">✅ Report Generated</h1>
+    <p class="text-gray-600 mb-6">
+      Your code has been analyzed. Click the button below to view your report:
+    </p>
+    <a 
+      href="{{ url_for('download_report', filename=report_name) }}"
+      class="inline-block bg-blue-600 text-white text-lg font-medium px-6 py-3 rounded hover:bg-blue-700 transition"
+      target="_blank"
+    >
+      View Report
+    </a>
+  </div>
+
+</body>
+</html>
