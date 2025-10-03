@@ -1,4 +1,4 @@
----
+
 # ⚙️ Data Structures and Algorithms Code Generator with Gemini AI
 
 This project leverages **Google Gemini AI** to analyze user-submitted Python code and datasets — focusing on data structure performance and algorithm complexity. It generates detailed HTML reports with:
@@ -8,7 +8,6 @@ This project leverages **Google Gemini AI** to analyze user-submitted Python cod
 - Space/time complexity explanations
 - Suggestions for algorithmic improvements
 
----
 
 ## 🚀 Features
 
