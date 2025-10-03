@@ -60,7 +60,7 @@ def result(ts):
 def download_report(filename):
     from flask import send_from_directory
     import os
-    reports_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "reports"))
+    reports_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "reports"))
     return send_from_directory(reports_path, filename)
 
 @analyze_bp.route("/error/<ts>")
