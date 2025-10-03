@@ -30,13 +30,8 @@ def index():
 @app.route("/result/<ts>")
 def result(ts):
     report_name = f"gemini_analysis_{ts}.html"
-    return render_template_string(
-        """
-        <h2>✅ Report Generated!</h2>
-        <p><a href="{{ url }}" target="_blank">Click here to view the report</a></p>
-        """,
-        url=url_for("download_report", filename=report_name)
-    )
+    return render_template("result.html", report_name=report_name)
+
 
 
 @app.route('/reports/<filename>')
