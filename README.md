@@ -17,6 +17,7 @@ This project leverages **Google Gemini AI** to analyze user-submitted Python cod
   - Time and space complexity details
   - Optimized algorithm suggestions
 - Generates rich **HTML reports**
+- Execute DSA Code And Report Performance On Graph
 - Built-in error handling for code issues
 - Modular structure for easy development
 - Uses `.env` for secure API key configuration
@@ -93,6 +94,7 @@ your-repo/
 ├── templates/
 │   └── index.html             # UI form
 │   └── result.html            # Report generated confirmation
+│   └── execute.html           # Execute DSA Code And Report Performance On Graph
 ├── static/                    # Optional CSS/JS if needed
 ├── reports/                   # Output: user_code_*.txt & gemini_analysis_*.html
 ├── .env                       # API key config
