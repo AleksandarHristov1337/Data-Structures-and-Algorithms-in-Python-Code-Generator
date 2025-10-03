@@ -71,12 +71,17 @@ Big-O notations, and suggestions for algorithm improvements.
 
 ```
 your-repo/
-├── .env                # Environment variables (API key, model name)
 ├── src/
-│   └── main.py         # Main application script
-├── reports/            # Generated HTML reports (created dynamically)
-├── requirements.txt    # Python dependencies
-└── README.md           # This file
+│   ├── __init__.py
+│   ├── main.py                  # Entry point (minimal logic)
+│   ├── input_handler.py         # Handles user input
+│   ├── file_saver.py            # Handles saving code and HTML to reports
+│   ├── gemini_analyzer.py       # Interacts with Gemini API
+│   ├── html_generator.py        # Builds the HTML report
+├── reports/                     # Generated reports (.txt + .html)
+├── .env                         # Contains API keys
+├── requirements.txt             # Python dependencies
+└── README.md                    # This file
 ```
 
 ---
