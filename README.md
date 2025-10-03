@@ -120,6 +120,9 @@ pip freeze > requirements.txt
 ```
 
 ---
+## Future Plans
+
+* 🧠 **Planned** Make it be able to be ran by more AI(LLM) providers others than Google Gemini AI.
 
 ## 🧩 Troubleshooting
 
