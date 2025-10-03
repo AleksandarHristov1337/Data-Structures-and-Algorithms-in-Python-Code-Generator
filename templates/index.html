@@ -1,32 +1,17 @@
-<!DOCTYPE html>
-<html>
-
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Code Analyzer UI</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body {
-            font-family: Arial;
-            margin: 40px;
-        }
-
-        textarea {
-            width: 100%;
-            height: 200px;
-            margin-bottom: 20px;
-        }
-
+        /* Keep your spinner CSS as-is */
         #spinner {
             display: none;
             position: fixed;
-            /* fix spinner relative to viewport */
             top: 40%;
-            /* move down 50% of viewport height */
             left: 50%;
-            /* move right 50% of viewport width */
             transform: translate(-50%, -50%);
-            /* shift spinner back up and left by half of its size to perfectly center */
-
             border: 8px solid #f3f3f3;
             border-top: 8px solid #3498db;
             border-radius: 50%;
@@ -44,59 +29,64 @@
                 transform: rotate(360deg);
             }
         }
-
-        #form-container {
-            display: block;
-        }
     </style>
 </head>
 
-<body>
-    <h1 id="form-title">Gemini Code Analysis UI</h1>
-    <div id="form-container">
-        <form method="POST" id="analyze-form">
-            <label for="dataset">Dataset:</label><br>
-            <textarea name="dataset" id="dataset" placeholder="[1, 2, 3, 4]"></textarea><br>
+<body class="bg-gray-50 min-h-screen flex flex-col items-center justify-start  p-8">
 
-            <label for="code">Python Code:</label><br>
-            <textarea name="code" id="code" placeholder="def foo(...): ..."></textarea><br>
+    <h1 id="form-title" class="text-4xl font-extrabold text-center text-blue-600 mb-8">
+        Gemini Code Analysis UI
+    </h1>
 
-            <button type="submit">Analyze</button>
+    <div id="form-container" class="w-full max-w-4xl bg-white p-8 rounded-lg shadow-lg">
+
+        <form method="POST" id="analyze-form" class="space-y-6">
+
+            <div>
+                <label for="dataset" class="block text-lg font-semibold mb-2 text-gray-700">Dataset:</label>
+                <textarea name="dataset" id="dataset" placeholder='[1, 2, 3, 4]'
+                    class="w-full h-40 p-3 border border-gray-300 rounded-md resize-y focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition"></textarea>
+            </div>
+
+            <div>
+                <label for="code" class="block text-lg font-semibold mb-2 text-gray-700">Python Code:</label>
+                <textarea name="code" id="code" placeholder="def foo(...): ..."
+                    class="w-full h-48 p-3 border border-gray-300 rounded-md resize-y focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition"></textarea>
+            </div>
+
+            <div class="text-center">
+                <button type="submit"
+                    class="bg-blue-600 text-white px-10 py-4 rounded-md text-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition">
+                    Analyze
+                </button>
+            </div>
+
+
         </form>
+
     </div>
 
     <div id="spinner"></div>
 
     <script>
         window.onload = function () {
-            // Show Title 
             document.getElementById("form-title").style.display = "block";
-            // Show form container
             document.getElementById("form-container").style.display = "block";
-            // Hide spinner
             document.getElementById("spinner").style.display = "none";
         };
 
         const form = document.getElementById("analyze-form");
         form.addEventListener("submit", function (event) {
-            event.preventDefault();  // Prevent immediate form submission
+            event.preventDefault();
 
-            // Hide Title
             document.getElementById("form-title").style.display = "none";
-            // Hide the form
             document.getElementById("form-container").style.display = "none";
-            // Show the spinner
             document.getElementById("spinner").style.display = "block";
 
-            // Submit the form after a short delay to allow spinner to render
             setTimeout(() => {
                 form.submit();
             }, 50);
         });
     </script>
 
-
-
 </body>
-
-</html>
