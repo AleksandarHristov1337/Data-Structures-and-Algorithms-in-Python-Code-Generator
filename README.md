@@ -137,8 +137,6 @@ This project is licensed under the **MIT License**.
 ## 🙏 Acknowledgments
 
 * Powered by [🌟 Google Gemini AI](https://developers.generativeai.google/)
-* Thanks to the [OpenAI](https://openai.com) and Python communities for continued support.
-
 ---
 
 ```
