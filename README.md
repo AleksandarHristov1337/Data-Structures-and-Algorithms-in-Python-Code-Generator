@@ -1,116 +1,149 @@
+Here’s your **updated and polished `README.md`** — formatted cleanly, fixed indentation issues, and clarified instructions for both **CLI and UI usage**. I’ve added a section for the **Flask Web UI**, included notes on `.env` placement, and ensured everything is GitHub-flavored Markdown ready.
 
+---
+# ⚙️ Data Structures and Algorithms Code Generator with Gemini AI
 
-# Data Structures and Algorithms Code Generator with Gemini AI
+This project leverages **Google Gemini AI** to analyze user-submitted Python code and datasets — focusing on data structure performance and algorithm complexity. It generates detailed HTML reports with:
 
-This project leverages **Google Gemini AI** to analyze user-submitted Python code and datasets,
-focusing on data structures performance and complexity.
-It generates detailed HTML reports with explanations about data structure efficiency,
-Big-O notations, and suggestions for algorithm improvements.
+- Efficiency breakdowns (fastest, average, slowest)
+- Big-O notations
+- Space/time complexity explanations
+- Suggestions for algorithmic improvements
 
 ---
 
-## Features
+## 🚀 Features
 
-- Accepts user input for datasets and Python code via command line.
+- Accepts input via **command line** or **web UI**
 - Uses Google Gemini AI to analyze:
-  - Fastest, average, and slowest data structures based on algorithmic complexity.
-  - Detailed explanations of time and space complexities.
-  - Suggestions for improved algorithms.
-- Saves analysis results along with code and dataset in an easy-to-read HTML report.
-- Supports error handling for incorrect or broken code submissions.
-- Environment configuration using `.env` file for API keys and model settings.
+  - Fastest, average, and slowest data structures
+  - Time and space complexity details
+  - Optimized algorithm suggestions
+- Generates rich **HTML reports**
+- Built-in error handling for code issues
+- Modular structure for easy development
+- Uses `.env` for secure API key configuration
 
 ---
 
-## Installation
+## 📦 Installation
 
-1. Clone the repository:
+### 1. Clone the Repository
 
-   ```bash
-   git clone https://github.com/AleksandarHristov1337/Data-Structures-and-Algorithms-in-Python---Code-Generator.git
-   cd src
+```bash
+git clone https://github.com/AleksandarHristov1337/Data-Structures-and-Algorithms-in-Python---Code-Generator.git
+cd Data-Structures-and-Algorithms-in-Python---Code-Generator
+````
 
+### 2. Install Dependencies
 
-2. Install required Python packages:
+```bash
+pip install -r requirements.txt
+```
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+### 3. Configure Your API Key
 
-3. Create a `.env` file in the project root (one level above the `src` folder) with:
+Create a `.env` file at the **project root** (above `src/`) and add:
 
-   ```
-   GOOGLE_API_KEY=your_google_api_key_here
-   MODEL_NAME=gemini-2.0-flash-001
-   ```
-
----
-
-## Usage
-
-1. Run the main script from the project root or the `src` folder:
-
-   ```bash
-   python src/main.py
-   ```
-
-2. Follow the command line prompts:
-
-   * Enter your dataset (e.g., `[5, 1, 2, 9, 5, 2, 3, 1, 8, 7]`)
-   * Enter your Python code snippet to analyze.
-
-3. The tool will generate an HTML report saved in the project directory, containing:
-
-   * The dataset you input.
-   * The code you submitted.
-   * Gemini AI’s analysis and explanations.
+```env
+GOOGLE_API_KEY=your_google_api_key_here
+MODEL_NAME=gemini-2.0-flash-001
+```
 
 ---
 
-## Project Structure
+## 🧠 Usage Options
+
+### ➤ Option 1: Command Line Interface (CLI)
+
+Run the main script:
+
+```bash
+python src/main.py
+```
+
+Follow prompts to input your dataset and Python code. Once complete, a report will be saved in the `reports/` directory.
+
+---
+
+### ➤ Option 2: Web User Interface (UI)
+
+1. Run the Flask app:
+
+   ```bash
+   python src/web_app.py
+   ```
+
+2. Open your browser and visit:
+   [http://localhost:5000](http://localhost:5000)
+
+3. Input your dataset and code. A spinner will indicate loading. You’ll be redirected to a page with a link to your generated report.
+
+---
+
+## 📁 Project Structure
 
 ```
 your-repo/
 ├── src/
 │   ├── __init__.py
-│   ├── main.py                  # Entry point (minimal logic)
-│   ├── web_app.py               # Flask app for UI
-│   ├── input_handler.py         # Handles user input
-│   ├── file_saver.py            # Handles saving code and HTML to reports
-│   ├── gemini_analyzer.py       # Interacts with Gemini API
-│   ├── html_generator.py        # Builds the HTML report
-├── reports/                     # Generated reports (.txt + .html)
+│   ├── main.py                # CLI entry point
+│   ├── web_app.py             # Flask app for UI
+│   ├── input_handler.py       # Handles user input
+│   ├── file_saver.py          # Saves user code & HTML reports
+│   ├── gemini_analyzer.py     # Communicates with Gemini API
+│   ├── html_generator.py      # Builds the HTML report
 ├── templates/
-│   └── index.html           # HTML template for UI
-├── static/                   # (optional) CSS, JS, etc.
-├── .env                         # Contains API keys
-├── requirements.txt             # Python dependencies
-└── README.md                    # This file
+│   └── index.html             # UI form
+│   └── result.html            # Report generated confirmation
+├── static/                    # Optional CSS/JS if needed
+├── reports/                   # Output: user_code_*.txt & gemini_analysis_*.html
+├── .env                       # API key config
+├── requirements.txt           # Python dependencies
+└── README.md
 ```
 
 ---
 
-## Requirements
+## ✅ Requirements
 
-* `genai`
-* `python-dotenv`
-* `flask`
-* `markdown2`
+```txt
+google-generativeai
+python-dotenv
+flask
+markdown2
+```
 
-## Troubleshooting
+To regenerate `requirements.txt` after installing packages:
 
-* If `MODEL_NAME` or `GOOGLE_API_KEY` print as `None`, confirm the `.env` file is correctly named and placed.
-* Make sure to run `load_dotenv()` before accessing environment variables.
-* If encountering errors submitting broken code, the tool will display error messages returned by Gemini AI in the report.
-
----
-
-## License
-
-MIT License
+```bash
+pip freeze > requirements.txt
+```
 
 ---
 
-## Acknowledgments
+## 🧩 Troubleshooting
 
-* Powered by [Google Gemini AI](https://developers.generativeai.google/)
+* ✅ **API Keys Missing?** Make sure `.env` is placed **in the root**, not in `src/`.
+* ✅ **Environment Not Loading?** Ensure `load_dotenv()` is called in relevant files.
+* ⚠️ **Broken Code Submitted?** Gemini will attempt to analyze and return helpful errors.
+* 🖥️ **Spinner Not Showing in UI?** Ensure JavaScript isn't blocked in your browser.
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**.
+
+---
+
+## 🙏 Acknowledgments
+
+* Powered by [🌟 Google Gemini AI](https://developers.generativeai.google/)
+* Thanks to the [OpenAI](https://openai.com) and Python communities for continued support.
+
+---
+
+```
+
+---
