@@ -74,11 +74,15 @@ your-repo/
 ├── src/
 │   ├── __init__.py
 │   ├── main.py                  # Entry point (minimal logic)
+│   ├── web_app.py               # Flask app for UI
 │   ├── input_handler.py         # Handles user input
 │   ├── file_saver.py            # Handles saving code and HTML to reports
 │   ├── gemini_analyzer.py       # Interacts with Gemini API
 │   ├── html_generator.py        # Builds the HTML report
 ├── reports/                     # Generated reports (.txt + .html)
+├── templates/
+│   └── index.html           # HTML template for UI
+├── static/                   # (optional) CSS, JS, etc.
 ├── .env                         # Contains API keys
 ├── requirements.txt             # Python dependencies
 └── README.md                    # This file
@@ -90,6 +94,8 @@ your-repo/
 
 * `genai`
 * `python-dotenv`
+* `flask`
+* `markdown2`
 
 ## Troubleshooting
 
