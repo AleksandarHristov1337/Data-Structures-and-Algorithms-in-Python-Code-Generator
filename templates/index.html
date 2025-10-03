@@ -69,20 +69,24 @@
     <div id="spinner"></div>
 
     <script>
-        window.onload = function () {
+        // Always show form and hide spinner on load (including browser back)
+        window.addEventListener("pageshow", function () {
             document.getElementById("form-title").style.display = "block";
             document.getElementById("form-container").style.display = "block";
             document.getElementById("spinner").style.display = "none";
-        };
+        });
 
         const form = document.getElementById("analyze-form");
         form.addEventListener("submit", function (event) {
-            event.preventDefault();
+            event.preventDefault();  // Prevent immediate form submission
 
+            // Hide Title and Form
             document.getElementById("form-title").style.display = "none";
             document.getElementById("form-container").style.display = "none";
+            // Show the Spinner
             document.getElementById("spinner").style.display = "block";
 
+            // Submit the form after a short delay
             setTimeout(() => {
                 form.submit();
             }, 50);
