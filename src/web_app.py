@@ -9,7 +9,7 @@ import traceback
 from flask import jsonify
 
 # Initialize Flask app with template directory
-app = Flask(__name__, template_folder=os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "templates")))
+app = Flask(__name__, template_folder=os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "")))
 
 @app.route("/", methods=["GET", "POST"])
 def index():
