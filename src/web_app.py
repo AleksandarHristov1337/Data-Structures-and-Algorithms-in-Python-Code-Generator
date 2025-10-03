@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory, Response, jsonify
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory, Response, jsonify, session
 from gemini_analyzer import analyze_with_gemini
 from file_saver import save_code_to_file, save_html_output
 import os
@@ -7,13 +7,136 @@ import io
 import sys
 import traceback
 import threading
+from flask import flash
+from flask_login import LoginManager, login_user, logout_user, login_required, current_user
+from models.models import AdminUser  # Assuming you saved AdminUser in models.py
+from werkzeug.security import check_password_hash, generate_password_hash
 
 # Initialize Flask app
 app = Flask(__name__, template_folder=os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "templates")))
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", "your-default-dev-secret-key")
+
+from functools import wraps
+from flask import request, Response
+
+# Hardcoded admin credentials — you can also put these in environment variables
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'  # redirect to this route if unauthenticated
+
+# Simple in-memory "user store"
+ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin")
+ADMIN_PASSWORD_HASH = os.getenv("ADMIN_PASSWORD_HASH", generate_password_hash("admin123"))
+
+admin_user = AdminUser(id="1", username=ADMIN_USERNAME, password_hash=ADMIN_PASSWORD_HASH)
+
+@login_manager.user_loader
+def load_user(user_id):
+    if user_id == admin_user.id:
+        return admin_user
+    return None
+
+from datetime import timedelta
+
+app.permanent_session_lifetime = timedelta(minutes=30)  # auto-logout after 30 min
+
+def authenticate():
+    return Response(
+        'Could not verify your access level for that URL.\n'
+        'You have to login with proper credentials', 401,
+        {'WWW-Authenticate': 'Basic realm="Login Required"'}
+    )
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    error = None
+    if request.method == "POST":
+        username = request.form.get("username", "")
+        password = request.form.get("password", "")
+
+        if username == admin_user.username and admin_user.check_password(password):
+            login_user(admin_user)
+            session.permanent = True  # enables session timeout
+            flash("Logged in successfully!", "success")
+            return redirect(url_for("admin_env"))
+        else:
+            error = "Invalid username or password"
+
+    return render_template("login.html", error=error)
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    flash("Logged out.", "info")
+    return redirect(url_for("login"))
+
+def requires_auth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth = request.authorization
+        if not auth or not check_auth(auth.username, auth.password):
+            return authenticate()
+        return f(*args, **kwargs)
+    return decorated
+
 
 # In-memory progress tracking
 progress_tracker = {}
 error_tracker = {}
+import os
+
+ENV_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".env"))
+
+DEFAULT_ENV_CONTENT = """GOOGLE_API_KEY=AIzaSyDmMD15toEJsPTnTLD0QYvtBpdD54YDc7c
+MODEL_NAME=gemini-2.0-flash-001
+"""
+
+def read_env():
+    if not os.path.exists(ENV_PATH):
+        with open(ENV_PATH, "w") as f:
+            f.write(DEFAULT_ENV_CONTENT)
+    with open(ENV_PATH, "r") as f:
+        lines = f.readlines()
+    env_dict = {}
+    for line in lines:
+        if "=" in line and not line.strip().startswith("#"):
+            key, value = line.strip().split("=", 1)
+            env_dict[key] = value
+    return env_dict
+
+import logging
+
+log_file = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "admin_changes.log"))
+logging.basicConfig(filename=log_file, level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
+
+def write_env(env_dict):
+    with open(ENV_PATH, "w") as f:
+        for key, value in env_dict.items():
+            f.write(f"{key}={value}\n")
+
+    # Log who did it and what was changed
+    user = current_user.username if current_user.is_authenticated else "unknown"
+    logging.info(f"{user} updated .env to: {env_dict}")
+@app.route("/admin", methods=["GET", "POST"])
+
+@login_required
+def admin_env():
+    env_vars = read_env()
+
+    if request.method == "POST":
+        new_google_api_key = request.form.get("GOOGLE_API_KEY", "").strip()
+        new_model_name = request.form.get("MODEL_NAME", "").strip()
+
+        if new_google_api_key and new_model_name:
+            env_vars["GOOGLE_API_KEY"] = new_google_api_key
+            env_vars["MODEL_NAME"] = new_model_name
+            write_env(env_vars)
+            flash("Environment variables updated successfully!", "success")
+        else:
+            flash("Both fields are required.", "error")
+
+    return render_template("admin.html", env=env_vars)
+
 
 @app.route("/", methods=["GET", "POST"])
 def index():

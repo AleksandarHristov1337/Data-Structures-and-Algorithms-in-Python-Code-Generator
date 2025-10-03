@@ -1,0 +1,75 @@
+2025-10-03 19:43:47,164 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-10-03 19:43:47,164 [INFO] [33mPress CTRL+C to quit[0m
+2025-10-03 19:43:47,164 [INFO]  * Restarting with stat
+2025-10-03 19:43:48,119 [WARNING]  * Debugger is active!
+2025-10-03 19:43:48,123 [INFO]  * Debugger PIN: 122-077-976
+2025-10-03 19:44:07,517 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-10-03 19:44:07,517 [INFO] [33mPress CTRL+C to quit[0m
+2025-10-03 19:44:07,517 [INFO]  * Restarting with stat
+2025-10-03 19:44:08,461 [WARNING]  * Debugger is active!
+2025-10-03 19:44:08,465 [INFO]  * Debugger PIN: 122-077-976
+2025-10-03 19:44:11,314 [INFO] 127.0.0.1 - - [03/Oct/2025 19:44:11] "[35m[1mGET /admin HTTP/1.1[0m" 500 -
+2025-10-03 19:44:11,342 [INFO] 127.0.0.1 - - [03/Oct/2025 19:44:11] "GET /admin?__debugger__=yes&cmd=resource&f=console.png&s=foeLSYvwG6FgtW5F67ig HTTP/1.1" 200 -
+2025-10-03 19:44:11,369 [INFO] 127.0.0.1 - - [03/Oct/2025 19:44:11] "[36mGET /admin?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-10-03 19:44:12,632 [INFO] 127.0.0.1 - - [03/Oct/2025 19:44:12] "[33mGET /adminm HTTP/1.1[0m" 404 -
+2025-10-03 19:44:14,155 [INFO] 127.0.0.1 - - [03/Oct/2025 19:44:14] "GET / HTTP/1.1" 200 -
+2025-10-03 19:44:16,247 [INFO] 127.0.0.1 - - [03/Oct/2025 19:44:16] "[35m[1mGET /admin HTTP/1.1[0m" 500 -
+2025-10-03 19:44:16,264 [INFO] 127.0.0.1 - - [03/Oct/2025 19:44:16] "[36mGET /admin?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-10-03 19:44:16,265 [INFO] 127.0.0.1 - - [03/Oct/2025 19:44:16] "[36mGET /admin?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-10-03 19:44:16,272 [INFO] 127.0.0.1 - - [03/Oct/2025 19:44:16] "[36mGET /admin?__debugger__=yes&cmd=resource&f=console.png&s=foeLSYvwG6FgtW5F67ig HTTP/1.1[0m" 304 -
+2025-10-03 19:44:50,164 [INFO]  * Detected change in 'C:\\Users\\Aleksandar\\Documents\\GitHub\\Data-Structures-and-Algorithms-in-Python-Code-Generator\\src\\web_app.py', reloading
+2025-10-03 19:44:50,268 [INFO]  * Restarting with stat
+2025-10-03 19:44:51,281 [WARNING]  * Debugger is active!
+2025-10-03 19:44:51,281 [INFO]  * Debugger PIN: 122-077-976
+2025-10-03 19:44:51,569 [INFO]  * Detected change in 'C:\\Users\\Aleksandar\\Documents\\GitHub\\Data-Structures-and-Algorithms-in-Python-Code-Generator\\src\\web_app.py', reloading
+2025-10-03 19:44:51,686 [INFO]  * Restarting with stat
+2025-10-03 19:44:52,698 [WARNING]  * Debugger is active!
+2025-10-03 19:44:52,700 [INFO]  * Debugger PIN: 122-077-976
+2025-10-03 19:44:53,389 [INFO] 127.0.0.1 - - [03/Oct/2025 19:44:53] "[31m[1mGET /admin HTTP/1.1[0m" 401 -
+2025-10-03 19:44:54,416 [INFO] 127.0.0.1 - - [03/Oct/2025 19:44:54] "[31m[1mGET /admin HTTP/1.1[0m" 401 -
+2025-10-03 19:44:55,723 [INFO] 127.0.0.1 - - [03/Oct/2025 19:44:55] "GET / HTTP/1.1" 200 -
+2025-10-03 19:45:21,381 [INFO] 127.0.0.1 - - [03/Oct/2025 19:45:21] "GET /login HTTP/1.1" 200 -
+2025-10-03 19:45:37,966 [INFO] 127.0.0.1 - - [03/Oct/2025 19:45:37] "[35m[1mPOST /login HTTP/1.1[0m" 500 -
+2025-10-03 19:45:37,979 [INFO] 127.0.0.1 - - [03/Oct/2025 19:45:37] "GET /login?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-10-03 19:45:37,981 [INFO] 127.0.0.1 - - [03/Oct/2025 19:45:37] "GET /login?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-10-03 19:45:38,017 [INFO] 127.0.0.1 - - [03/Oct/2025 19:45:38] "GET /login?__debugger__=yes&cmd=resource&f=console.png&s=NIzsVTc5iBIh0SdrIzGM HTTP/1.1" 200 -
+2025-10-03 19:45:38,024 [INFO] 127.0.0.1 - - [03/Oct/2025 19:45:38] "GET /login?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-10-03 19:46:17,809 [INFO] 127.0.0.1 - - [03/Oct/2025 19:46:17] "[35m[1mPOST /login HTTP/1.1[0m" 500 -
+2025-10-03 19:46:17,823 [INFO] 127.0.0.1 - - [03/Oct/2025 19:46:17] "[36mGET /login?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-10-03 19:46:17,825 [INFO] 127.0.0.1 - - [03/Oct/2025 19:46:17] "[36mGET /login?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-10-03 19:46:17,836 [INFO] 127.0.0.1 - - [03/Oct/2025 19:46:17] "[36mGET /login?__debugger__=yes&cmd=resource&f=console.png&s=NIzsVTc5iBIh0SdrIzGM HTTP/1.1[0m" 304 -
+2025-10-03 19:46:17,844 [INFO] 127.0.0.1 - - [03/Oct/2025 19:46:17] "[36mGET /login?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-10-03 19:46:33,480 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-10-03 19:46:33,480 [INFO] [33mPress CTRL+C to quit[0m
+2025-10-03 19:46:33,480 [INFO]  * Restarting with stat
+2025-10-03 19:46:34,464 [WARNING]  * Debugger is active!
+2025-10-03 19:46:34,464 [INFO]  * Debugger PIN: 122-077-976
+2025-10-03 19:46:38,415 [INFO] 127.0.0.1 - - [03/Oct/2025 19:46:38] "POST /login HTTP/1.1" 200 -
+2025-10-03 19:47:03,239 [INFO] 127.0.0.1 - - [03/Oct/2025 19:47:03] "POST /login HTTP/1.1" 200 -
+2025-10-03 19:47:10,563 [INFO] 127.0.0.1 - - [03/Oct/2025 19:47:10] "[35m[1mPOST /login HTTP/1.1[0m" 500 -
+2025-10-03 19:47:10,592 [INFO] 127.0.0.1 - - [03/Oct/2025 19:47:10] "[36mGET /login?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-10-03 19:47:10,594 [INFO] 127.0.0.1 - - [03/Oct/2025 19:47:10] "[36mGET /login?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-10-03 19:47:10,601 [INFO] 127.0.0.1 - - [03/Oct/2025 19:47:10] "GET /login?__debugger__=yes&cmd=resource&f=console.png&s=v0QDrTXWikY4kfSDSQBB HTTP/1.1" 200 -
+2025-10-03 19:47:10,607 [INFO] 127.0.0.1 - - [03/Oct/2025 19:47:10] "[36mGET /login?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-10-03 19:50:16,433 [INFO] 127.0.0.1 - - [03/Oct/2025 19:50:16] "[35m[1mPOST /login HTTP/1.1[0m" 500 -
+2025-10-03 19:50:16,446 [INFO] 127.0.0.1 - - [03/Oct/2025 19:50:16] "[36mGET /login?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-10-03 19:50:16,448 [INFO] 127.0.0.1 - - [03/Oct/2025 19:50:16] "[36mGET /login?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-10-03 19:50:16,453 [INFO] 127.0.0.1 - - [03/Oct/2025 19:50:16] "[36mGET /login?__debugger__=yes&cmd=resource&f=console.png&s=v0QDrTXWikY4kfSDSQBB HTTP/1.1[0m" 304 -
+2025-10-03 19:50:16,460 [INFO] 127.0.0.1 - - [03/Oct/2025 19:50:16] "[36mGET /login?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-10-03 19:50:54,796 [INFO]  * Detected change in 'C:\\Users\\Aleksandar\\Documents\\GitHub\\Data-Structures-and-Algorithms-in-Python-Code-Generator\\src\\web_app.py', reloading
+2025-10-03 19:50:54,890 [INFO]  * Restarting with stat
+2025-10-03 19:50:56,630 [WARNING]  * Debugger is active!
+2025-10-03 19:50:56,633 [INFO]  * Debugger PIN: 122-077-976
+2025-10-03 19:51:23,484 [INFO]  * Detected change in 'C:\\Users\\Aleksandar\\Documents\\GitHub\\Data-Structures-and-Algorithms-in-Python-Code-Generator\\src\\web_app.py', reloading
+2025-10-03 19:51:23,584 [INFO]  * Restarting with stat
+2025-10-03 19:51:24,584 [WARNING]  * Debugger is active!
+2025-10-03 19:51:24,584 [INFO]  * Debugger PIN: 122-077-976
+2025-10-03 19:51:27,620 [INFO] 127.0.0.1 - - [03/Oct/2025 19:51:27] "POST /login HTTP/1.1" 200 -
+2025-10-03 19:51:33,129 [INFO] 127.0.0.1 - - [03/Oct/2025 19:51:33] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-10-03 19:51:33,148 [INFO] 127.0.0.1 - - [03/Oct/2025 19:51:33] "GET /admin HTTP/1.1" 200 -
+2025-10-03 19:51:38,161 [INFO] 127.0.0.1 - - [03/Oct/2025 19:51:38] "GET /login HTTP/1.1" 200 -
+2025-10-03 19:51:42,277 [INFO] 127.0.0.1 - - [03/Oct/2025 19:51:42] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-10-03 19:51:42,280 [INFO] 127.0.0.1 - - [03/Oct/2025 19:51:42] "GET /admin HTTP/1.1" 200 -
