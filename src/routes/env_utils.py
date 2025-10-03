@@ -4,7 +4,7 @@ from utils.logging_utils import log_admin_env_change
 
 ENV_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".env"))
 
-DEFAULT_ENV_CONTENT = """GOOGLE_API_KEY=AIzaSyDmMD15toEJsPTnTLD0QYvtBpdD54YDc7c
+DEFAULT_ENV_CONTENT = """GOOGLE_API_KEY=
 MODEL_NAME=gemini-2.0-flash-001
 """
 
