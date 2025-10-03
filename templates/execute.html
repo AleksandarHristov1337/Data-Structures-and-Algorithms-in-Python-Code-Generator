@@ -6,6 +6,14 @@
     <title>DSA Code Tester</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.13/lib/codemirror.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.13/theme/material-darker.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.13/lib/codemirror.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.13/mode/python/python.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/skulpt@latest/dist/skulpt.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/skulpt@latest/dist/skulpt-stdlib.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/lint/lint.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/lint/lint.min.js"></script>
 
     <style>
         /* Spinner bar */
@@ -33,6 +41,13 @@
                 transform: rotate(360deg) translateX(-50%);
             }
         }
+
+        #editor {
+            height:  300px;
+            /* fixed height */
+            margin-bottom: 1.5rem;
+            /* space between editor and buttons */
+        }
     </style>
 </head>
 
@@ -43,20 +58,17 @@
 
         <form method="POST" class="space-y-4">
             <label class="block font-semibold text-gray-700 flex justify-center">PYTHON CODE</label>
-            <textarea name="code" rows="12"
-                class="w-full border rounded p-4 font-mono text-sm">{{ code or '' }}</textarea>
+            <textarea id="codeEditor" name="code" class="hidden">{{ code or '' }}</textarea>
+            <div id="editor" class="border rounded"></div>
 
-              <div class="flex justify-center gap-5">
-                <a 
-      href="/"
-      class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700" 
-    >
-      Go Back
-    </a>
-        <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700">
-            Run Code
-        </button>
-    </div>
+            <div class="flex justify-center gap-5">
+                <a href="/" class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700">
+                    Go Back
+                </a>
+                <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700">
+                    Run Code
+                </button>
+            </div>
         </form>
 
         {% if result %}
@@ -178,6 +190,45 @@
         {% if code %}
         runBenchmarks();
         {% endif %}
+        function skulptLint(text, options) {
+         const found = [];
+    try {
+      Sk.parse(text);
+    } catch (e) {
+      // e has details about error location
+      const line = e.args.v[1] - 1; // Skulpt lines start at 1
+      found.push({
+        from: CodeMirror.Pos(line, 0),
+        to: CodeMirror.Pos(line, 1000),
+        message: e.args.v[0],
+        severity: "error"
+      });
+    }
+    return found;
+  }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const textarea = document.getElementById("codeEditor");
+            const editor = CodeMirror(document.getElementById("editor"), {
+                value: textarea.value,
+                mode: "python",
+                lineNumbers: true,
+                indentUnit: 4,
+                tabSize: 4,
+                autofocus: true,
+                matchBrackets: true,
+                autoCloseBrackets: true,
+                styleActiveLine: true,
+                lineWrapping: true,
+                viewportMargin: Infinity
+            });
+
+            // On form submit, copy content back to textarea
+            textarea.form.addEventListener("submit", () => {
+                textarea.value = editor.getValue();
+            });
+        });
+
     </script>
 
     <!-- Canvas container for chart -->
