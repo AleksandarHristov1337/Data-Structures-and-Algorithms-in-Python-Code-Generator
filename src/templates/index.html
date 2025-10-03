@@ -6,29 +6,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Keep your spinner CSS as-is */
-        #spinner {
-            display: none;
-            position: fixed;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            border: 8px solid #f3f3f3;
-            border-top: 8px solid #3498db;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
     </style>
 </head>
 
@@ -37,7 +14,7 @@
     <h1 id="form-title" class="text-4xl font-extrabold text-center text-blue-600 mb-8">
         Gemini Code Analysis UI
     </h1>
-    <a href="{{ url_for('execute') }}"
+    <a href="{{ url_for('execute.execute') }}"
         class="inline-block bg-green-600 text-white text-lg font-medium px-6 py-3 rounded hover:bg-green-700 transition mt-4 mb-8">
         Try DSA Code Executor
     </a>
@@ -82,19 +59,22 @@
 
         const form = document.getElementById("analyze-form");
         form.addEventListener("submit", function (event) {
-            event.preventDefault();  // Prevent immediate form submission
+            event.preventDefault();  // Stop default submission
 
-            // Hide Title and Form
+            // Hide Title, Form, and the DSA button all at once
             document.getElementById("form-title").style.display = "none";
             document.getElementById("form-container").style.display = "none";
-            // Show the Spinner
+
+            // Hide the Try DSA button
+            document.querySelector('a[href="{{ url_for("execute.execute") }}"]').style.display = "none";
+
+            // Show spinner immediately
             document.getElementById("spinner").style.display = "block";
 
-            // Submit the form after a short delay
-            setTimeout(() => {
-                form.submit();
-            }, 50);
+            // Now submit form immediately without delay
+            form.submit();
         });
+
     </script>
 
 </body>
