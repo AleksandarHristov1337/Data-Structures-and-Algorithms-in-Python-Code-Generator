@@ -1,0 +1,29 @@
+import os
+import datetime
+
+def save_code_to_file(code):
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    reports_dir = os.path.join(os.path.dirname(__file__), "..", "reports")
+    os.makedirs(reports_dir, exist_ok=True)
+
+    filename = f"user_code_{timestamp}.txt"
+    filepath = os.path.join(reports_dir, filename)
+
+    with open(filepath, "w", encoding="utf-8") as f:
+        f.write(code)
+    print(f"\n✅ Code saved to {filepath}")
+    return filepath, timestamp
+
+from html_generator import generate_html
+
+def save_html_output(code, dataset, analysis, timestamp):
+    reports_dir = os.path.join(os.path.dirname(__file__), "..", "reports")
+    os.makedirs(reports_dir, exist_ok=True)
+    output_filename = f"gemini_analysis_{timestamp}.html"
+    output_path = os.path.join(reports_dir, output_filename)
+
+    html_content = generate_html(code, dataset, analysis)
+
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write(html_content)
+    print(f"\n✅ Gemini analysis saved to {output_path}")
