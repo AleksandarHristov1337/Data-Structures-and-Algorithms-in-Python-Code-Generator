@@ -139,6 +139,3 @@ This project is licensed under the **MIT License**.
 * Powered by [🌟 Google Gemini AI](https://developers.generativeai.google/)
 ---
 
-```
-
----
