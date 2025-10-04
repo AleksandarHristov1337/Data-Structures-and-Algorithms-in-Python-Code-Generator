@@ -145,3 +145,8 @@ This project is licensed under the **MIT License**.
 * Powered by [🌟 Google Gemini AI](https://developers.generativeai.google/)
 ---
 
+## EXAMPLE ENV 
+GOOGLE_API_KEY=your_api_key_here
+MODEL_NAME=gemini-2.0-flash-001
+FLASK_SECRET_KEY=your_secret_key
+DATABASE_URL=postgresql+psycopg2://user:pass@localhost/dbname
