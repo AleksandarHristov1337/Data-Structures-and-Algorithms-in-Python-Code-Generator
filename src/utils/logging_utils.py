@@ -1,7 +1,7 @@
 import logging
 import os
 
-log_file = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "admin_changes.log"))
+log_file = os.path.abspath(os.path.join(os.path.dirname(__file__),  "..", "..", "admin_changes.log"))
 
 logging.basicConfig(filename=log_file, level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
 

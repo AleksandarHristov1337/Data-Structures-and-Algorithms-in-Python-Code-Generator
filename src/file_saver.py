@@ -3,7 +3,7 @@ import datetime
 
 def save_code_to_file(code):
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    reports_dir = os.path.join(os.path.dirname(__file__), "..", "reports")
+    reports_dir = os.path.join(os.path.dirname(__file__),  "..", "..", "reports")
     os.makedirs(reports_dir, exist_ok=True)
 
     filename = f"user_code_{timestamp}.txt"
@@ -17,7 +17,7 @@ def save_code_to_file(code):
 from html_generator import generate_html
 
 def save_html_output(code, dataset, analysis, timestamp):
-    reports_dir = os.path.join(os.path.dirname(__file__), "..", "reports")
+    reports_dir = os.path.join(os.path.dirname(__file__),  "..", "..", "reports")
     os.makedirs(reports_dir, exist_ok=True)
     output_filename = f"gemini_analysis_{timestamp}.html"
     output_path = os.path.join(reports_dir, output_filename)

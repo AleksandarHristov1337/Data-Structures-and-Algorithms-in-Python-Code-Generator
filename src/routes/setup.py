@@ -55,7 +55,7 @@ def setup():
             db_url = f"postgresql+psycopg2://{db_username}:{db_password}@localhost/{db_name}"
 
             # Save DB URL to .env file
-            env_path = os.path.join(os.path.dirname(__file__), "..", ".env")
+            env_path = os.path.join(os.path.dirname(__file__),  "..", "..", ".env")
             set_key(env_path, "DATABASE_URL", db_url)
 
             # Reload env vars and update config
