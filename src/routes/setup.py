@@ -18,6 +18,15 @@ def check_setup():
             logging.debug(f"Setup incomplete: redirecting {request.path} to setup page")
             return redirect(url_for('setup.setup'))
 
+    else:
+        # Setup flag exists, but verify admin user exists
+        if not AdminUser.query.first():
+            logging.warning("Setup flag present but no admin user found. Resetting setup.")
+            # Remove setup flag to force setup again
+            os.remove(SETUP_FLAG)
+            flash("No admin user found. Please complete setup again.", "warning")
+            return redirect(url_for('setup.setup'))
+
 @setup_bp.route("/setup", methods=["GET", "POST"])
 def setup():
     if os.path.exists(SETUP_FLAG):
