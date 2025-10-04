@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Initial Setup</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+  <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
+    <h2 class="text-2xl font-bold text-center mb-6 text-blue-700">Initial Setup</h2>
+
+    {% if error %}
+      <div class="bg-red-100 text-red-700 p-3 rounded mb-4">{{ error }}</div>
+    {% endif %}
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="mb-4 p-3 rounded {{ 'bg-green-100 text-green-700' if category == 'success' else 'bg-red-100 text-red-700' }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" class="space-y-5">
+      <div>
+        <label for="admin_username" class="block text-sm font-medium text-gray-700">Admin Username</label>
+        <input type="text" name="admin_username" id="admin_username" required
+               class="mt-1 w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400" />
+      </div>
+
+      <div>
+        <label for="admin_password" class="block text-sm font-medium text-gray-700">Admin Password</label>
+        <input type="password" name="admin_password" id="admin_password" required
+               class="mt-1 w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400" />
+      </div>
+
+      <div>
+        <label for="db_username" class="block text-sm font-medium text-gray-700">Database Username</label>
+        <input type="text" name="db_username" id="db_username" value="postgres" required
+               class="mt-1 w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400" />
+      </div>
+
+      <div>
+        <label for="db_name" class="block text-sm font-medium text-gray-700">Database Name</label>
+        <input type="text" name="db_name" id="db_name" required
+               class="mt-1 w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400" />
+      </div>
+
+      <div>
+        <label for="db_password" class="block text-sm font-medium text-gray-700">Database Password</label>
+        <input type="password" name="db_password" id="db_password" required
+               class="mt-1 w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400" />
+      </div>
+
+      <button type="submit"
+              class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">
+        Complete Setup
+      </button>
+    </form>
+  </div>
+</body>
+</html>

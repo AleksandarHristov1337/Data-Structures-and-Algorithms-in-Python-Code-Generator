@@ -4,3 +4,4 @@
 .env
 admin_changes.log
 src/instance/admin.db
+src/.setup_done

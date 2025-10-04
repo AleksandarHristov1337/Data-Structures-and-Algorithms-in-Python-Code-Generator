@@ -1,60 +1,47 @@
+import os
 from flask import Flask
 from flask_login import LoginManager
-from models.models import db, AdminUser
-from werkzeug.security import generate_password_hash
-import os
-from datetime import timedelta
+from models.models import db, argon2, AdminUser
+from dotenv import load_dotenv
 
-# Initialize Flask app
-app = Flask(
-    __name__,
-    template_folder=os.path.abspath(os.path.join(os.path.dirname(__file__), "templates"))
-)
-app.secret_key = os.environ.get("FLASK_SECRET_KEY", "your-default-dev-secret-key")
-app.permanent_session_lifetime = timedelta(minutes=30)
+def create_app():
+    app = Flask(__name__)
 
-# Database configuration (using SQLite)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///admin.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    load_dotenv()
 
-# Initialize the database
-db.init_app(app)
+    app.config['SECRET_KEY'] = os.environ.get("FLASK_SECRET_KEY", "change_this_in_production")
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
+        "DATABASE_URL",
+        "postgresql+psycopg2://postgres:password@localhost:5432/mydatabase"
+    )
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Setup login manager
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = 'auth.login'
+    db.init_app(app)
+    argon2.init_app(app)
 
-@login_manager.user_loader
-def load_user(user_id):
-    return AdminUser.query.get(int(user_id))
+    login_manager = LoginManager(app)
+    login_manager.login_view = 'auth.login'
 
-# Register blueprints
-from routes.main import main_bp
-from routes.auth import auth_bp
-from routes.admin import admin_bp
-from routes.analyze import analyze_bp
-from routes.execute import execute_bp
+    @login_manager.user_loader
+    def load_user(user_id):
+        return AdminUser.query.get(int(user_id))
 
-app.register_blueprint(main_bp)
-app.register_blueprint(auth_bp)
-app.register_blueprint(admin_bp)
-app.register_blueprint(analyze_bp)
-app.register_blueprint(execute_bp)
+    from routes.setup import setup_bp
+    from routes.auth import auth_bp
+    from routes.admin import admin_bp
+    from routes.analyze import analyze_bp
+    from routes.execute import execute_bp
+    from routes.main import main_bp
 
-# Create the database and ensure default admin user exists
-with app.app_context():
-    db.create_all()
+    app.register_blueprint(setup_bp)
+    app.register_blueprint(auth_bp)
+    app.register_blueprint(admin_bp)
+    app.register_blueprint(analyze_bp)
+    app.register_blueprint(execute_bp)
+    app.register_blueprint(main_bp)
 
-    default_admin = AdminUser.query.filter_by(username="admin").first()
-    if not default_admin:
-        default_admin = AdminUser(
-            username="admin",
-            password_hash=generate_password_hash("admin123")
-        )
-        db.session.add(default_admin)
-        db.session.commit()
-        print("✅ Default admin user created: admin / admin123")
+    return app
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app = create_app()
+    app.run(host="0.0.0.0", port=5000)
