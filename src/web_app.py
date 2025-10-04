@@ -4,10 +4,30 @@ from flask_login import LoginManager
 from models.models import db, argon2, AdminUser
 from dotenv import load_dotenv
 
-def create_app():
-    app = Flask(__name__)
+def create_env_file():
+    # Calculate the path two directories up
+    env_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".env"))
+    
+    if not os.path.exists(env_path):
+        with open(env_path, "w") as f:
+            f.write(
+                "GOOGLE_API_KEY=your_api_key_here\n"
+                "MODEL_NAME=gemini-2.0-flash-001\n"
+                "FLASK_SECRET_KEY=your_secret_key\n"
+                "DATABASE_URL=postgresql+psycopg2://user:pass@localhost/dbnamea\n"
+            )
+        print(f".env file created at {env_path}")
+    else:
+        print(f".env file already exists at {env_path}")
 
-    load_dotenv()
+def create_app():
+    create_env_file()  # Create .env two levels up if missing before loading
+
+    # Load .env from two levels up
+    env_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".env"))
+    load_dotenv(dotenv_path=env_path)
+
+    app = Flask(__name__)
 
     app.config['SECRET_KEY'] = os.environ.get("FLASK_SECRET_KEY", "change_this_in_production")
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
