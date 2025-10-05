@@ -13,6 +13,7 @@ class AdminUser(UserMixin, db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
     is_admin = db.Column(db.Boolean, default=True)
+
     def set_password(self, password):
         self.password_hash = argon2.generate_password_hash(password).decode('utf-8')
 
@@ -21,7 +22,8 @@ class AdminUser(UserMixin, db.Model):
             return argon2.check_password_hash(self.password_hash, password)
         except Exception:
             return False
-class User(db.Model, UserMixin):
+
+class User(UserMixin, db.Model):  # Keep UserMixin before db.Model for clarity
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -29,9 +31,16 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(256), nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
 
-    # reports relationship (optional)
     reports = db.relationship("Report", backref="user", lazy=True)
 
+    def set_password(self, password):
+        self.password_hash = argon2.generate_password_hash(password).decode('utf-8')
+
+    def check_password(self, password):
+        try:
+            return argon2.check_password_hash(self.password_hash, password)
+        except Exception:
+            return False
 
 class Report(db.Model):
     __tablename__ = "reports"
@@ -41,6 +50,7 @@ class Report(db.Model):
     dataset = db.Column(db.String, nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=True)
+    created_by_admin = db.Column(db.Boolean, default=False)  # NEW FIELD
 
     def __repr__(self):
         return f"<Report {self.filename}>"
