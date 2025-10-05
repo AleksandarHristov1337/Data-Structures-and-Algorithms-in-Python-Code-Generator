@@ -9,20 +9,15 @@ setup_bp = Blueprint('setup', __name__)
 
 SETUP_FLAG = ".setup_done"
 
-# Setup enforcement: redirect all requests to setup page if not completed
 @setup_bp.before_app_request
 def check_setup():
     if not os.path.exists(SETUP_FLAG):
-        # Allow setup page and static files without redirect
         if request.endpoint != 'setup.setup' and not request.path.startswith('/static'):
             logging.debug(f"Setup incomplete: redirecting {request.path} to setup page")
             return redirect(url_for('setup.setup'))
-
     else:
-        # Setup flag exists, but verify admin user exists
         if not AdminUser.query.first():
             logging.warning("Setup flag present but no admin user found. Resetting setup.")
-            # Remove setup flag to force setup again
             os.remove(SETUP_FLAG)
             flash("No admin user found. Please complete setup again.", "warning")
             return redirect(url_for('setup.setup'))
@@ -30,7 +25,6 @@ def check_setup():
 @setup_bp.route("/setup", methods=["GET", "POST"])
 def setup():
     if os.path.exists(SETUP_FLAG):
-        # Setup already done: redirect to login
         return redirect(url_for("auth.login"))
 
     error = None
@@ -44,7 +38,6 @@ def setup():
         if not all([admin_username, admin_password, db_name, db_username, db_password]):
             error = "All fields are required."
         else:
-            # Test DB connection directly with psycopg2 for detailed error reporting
             try:
                 logging.debug(f"Attempting DB connection with user '{db_username}' to DB '{db_name}'")
                 conn = psycopg2.connect(
@@ -60,35 +53,41 @@ def setup():
                 error = f"Database connection failed: {e}"
                 return render_template("setup.html", error=error)
 
-            # Compose SQLAlchemy DB URL
             db_url = f"postgresql+psycopg2://{db_username}:{db_password}@localhost/{db_name}"
 
-            # Save DB URL to .env file
-            env_path = os.path.join(os.path.dirname(__file__),  "..", "..", ".env")
-            set_key(env_path, "DATABASE_URL", db_url)
+            # Write clean DATABASE_URL to .env
+            env_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".env"))
+            with open(env_path, "r") as f:
+                lines = f.readlines()
 
-            # Reload env vars and update config
-            load_dotenv(env_path)
-            current_app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
+            with open(env_path, "w") as f:
+                for line in lines:
+                    if not line.startswith("DATABASE_URL="):
+                        f.write(line)
+                f.write(f"DATABASE_URL={db_url}\n")
 
-            # Reinitialize DB and create tables
+            # Reload and reconfigure
+            load_dotenv(env_path, override=True)
+            current_app.config['SQLALCHEMY_DATABASE_URI'] = db_url
+
             try:
                 with current_app.app_context():
                     db.engine.dispose()
                     db.create_all()
 
-                    # Check if admin user exists
                     if AdminUser.query.filter_by(username=admin_username).first():
                         error = "Admin username already exists."
                         return render_template("setup.html", error=error)
 
-                    # Create admin user
                     hashed = argon2.generate_password_hash(admin_password)
-                    admin = AdminUser(username=admin_username, password_hash=hashed)
+                    admin = AdminUser(
+                        username=admin_username,
+                        password_hash=hashed,
+                        is_admin=True
+                    )
                     db.session.add(admin)
                     db.session.commit()
 
-                    # Create setup flag file to mark setup complete
                     with open(SETUP_FLAG, "w") as flag_file:
                         flag_file.write("done")
 

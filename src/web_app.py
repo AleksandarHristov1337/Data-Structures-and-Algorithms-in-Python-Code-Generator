@@ -7,7 +7,8 @@ from dotenv import load_dotenv
 def create_env_file():
     # Calculate the path two directories up
     env_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".env"))
-    
+    print("Using DB URI:", os.environ.get("DATABASE_URL"))
+
     if not os.path.exists(env_path):
         with open(env_path, "w") as f:
             f.write(
