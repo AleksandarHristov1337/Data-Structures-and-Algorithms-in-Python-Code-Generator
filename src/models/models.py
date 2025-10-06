@@ -46,7 +46,7 @@ class Report(db.Model):
     __tablename__ = "reports"
 
     id = db.Column(db.Integer, primary_key=True)
-    filename = db.Column(db.String, nullable=False)
+    filename = db.Column(db.String, nullable=False, unique=True)
     dataset = db.Column(db.String, nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=True)

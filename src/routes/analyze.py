@@ -23,11 +23,14 @@ def start_analysis():
     def progress_callback(percent):
         progress_tracker[timestamp] = percent
 
-    # Capture app and user info before starting the thread
     app = current_app._get_current_object()
     user_object = current_user._get_current_object()
 
-    if isinstance(user_object, AdminUser):
+    # 🧠 SAFER USER CHECK
+    if not current_user.is_authenticated:
+        user_id = None
+        is_admin = False
+    elif isinstance(user_object, AdminUser):
         user_id = None
         is_admin = True
     else:
@@ -40,10 +43,12 @@ def start_analysis():
                 analysis_html = analyze_with_gemini(code, dataset, progress_callback)
                 filename = save_html_output(code, dataset, analysis_html, timestamp)
 
+                # ✅ Save correct user/admin flags
                 report = Report(
                     filename=filename,
                     dataset=dataset,
-                    user_id=user_id  # will be None if admin
+                    user_id=user_id,
+                    created_by_admin=is_admin
                 )
 
                 db.session.add(report)
@@ -57,7 +62,6 @@ def start_analysis():
 
     threading.Thread(target=run_analysis, args=(app, user_id, is_admin)).start()
     return redirect(url_for("analyze.progress_page", ts=timestamp))
-
 
 @analyze_bp.route("/progress/<ts>")
 def progress(ts):
