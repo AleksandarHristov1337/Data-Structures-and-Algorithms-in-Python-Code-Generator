@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>Admin Reports</title>
@@ -11,7 +12,7 @@
 
   <!-- Navbar -->
   <nav class="bg-blue-700 text-white py-4 px-6 flex justify-between items-center shadow">
-    <h1 class=l font-bold">Admin Dashboard</h1>
+    <h1 class="text-xl font-bold">Admin Dashboard</h1>
     <a href="{{ url_for('auth.logout') }}" class="text-sm bg-red-500 hover:bg-red-600 px-3 py-1 rounded">
       Logout
     </a>
@@ -21,7 +22,7 @@
     <div class="max-w-6xl mx-auto bg-white shadow-md rounded-lg p-6">
       <h2 class="text-2xl font-bold mb-6 text-blue-700 text-center">Generated Reports</h2>
 
-      <table class="min-w-full bg-white border border-gray-200">
+      <table class="min-w-full bg-white border border-gray-200 text-sm">
         <thead class="bg-gray-100 text-left">
           <tr>
             <th class="py-2 px-4 border-b">Filename</th>
@@ -32,23 +33,46 @@
         </thead>
         <tbody>
           {% for report in reports %}
-            <tr class="hover:bg-gray-50">
-              <td class="py-2 px-4 border-b">{{ report.filename }}</td>
-              <td class="py-2 px-4 border-b">{{ report.dataset or "N/A" }}</td>
-              <td class="py-2 px-4 border-b">{{ report.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
-              <td class="py-2 px-4 border-b">
-                <a href="{{ url_for('analyze.download_report', filename=report.filename) }}"
-                   class="text-blue-600 hover:underline">Download</a>
-              </td>
-            </tr>
+          <tr class="hover:bg-gray-50 align-top">
+            <td class="py-2 px-4 border-b font-mono">{{ report.filename }}</td>
+            <td class="py-2 px-4 border-b whitespace-pre-line">{{ report.dataset or "N/A" }}</td>
+            <td class="py-2 px-4 border-b">{{ report.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+            <td class="py-2 px-4 border-b space-y-2">
+
+              <!-- Download -->
+              <a href="{{ url_for('analyze.download_report', filename=report.filename) }}"
+                class="text-blue-600 hover:underline block">Download</a>
+
+              <!-- Rename Form -->
+              <form method="POST" action="{{ url_for('admin.rename_report', report_id=report.id) }}"
+                class="inline-block">
+                <input type="text" name="new_filename" placeholder="new_name.html" class="border px-2 py-1" required />
+                <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">
+                  Rename
+                </button>
+              </form>
+              
+              <!-- Delete Form -->
+              <form method="POST" action="{{ url_for('admin.delete_report', report_id=report.id) }}"
+                onsubmit="return confirm('Are you sure you want to delete this report?');">
+                <button type="submit" class="bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1 rounded">
+                  Delete
+                </button>
+              </form>
+
+            </td>
+          </tr>
           {% else %}
-            <tr>
-              <td colspan="4" class="text-center py-4 text-gray-500">No reports found.</td>
-            </tr>
+          <tr>
+            <td colspan="4" class="text-center py-6 text-gray-500">
+              No reports found.
+            </td>
+          </tr>
           {% endfor %}
         </tbody>
       </table>
     </div>
   </main>
 </body>
+
 </html>

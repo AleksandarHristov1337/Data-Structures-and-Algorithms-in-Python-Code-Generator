@@ -1,17 +1,34 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+import os
+from functools import wraps
+from flask import (
+    Blueprint, render_template, request, redirect,
+    url_for, flash, current_app
+)
 from flask_login import login_required, current_user
+from models.models import db, Report, AdminUser
 from utils.env_utils import read_env, write_env
-from models.models import Report
 
-admin_bp = Blueprint("admin", __name__)
+admin_bp = Blueprint("admin", __name__, url_prefix="/admin")
 
-@admin_bp.route("/admin", methods=["GET", "POST"])
+# -------------------------------
+# Decorator to restrict access to admin users
+# -------------------------------
+def admin_required(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        if not current_user.is_authenticated or not getattr(current_user, "is_admin", False):
+            flash("Access denied.", "error")
+            return redirect(url_for("auth.login"))
+        return func(*args, **kwargs)
+    return wrapper
+
+# -------------------------------
+# Environment Variable Editor
+# -------------------------------
+@admin_bp.route("/", methods=["GET", "POST"])
 @login_required
+@admin_required
 def admin_env():
-    # Optionally only allow admins
-    if not current_user.is_admin:
-        return "Unauthorized", 403
-
     env_vars = read_env()
 
     if request.method == "POST":
@@ -30,12 +47,83 @@ def admin_env():
 
     return render_template("admin.html", env=env_vars)
 
-
-@admin_bp.route("/admin/reports")
+# -------------------------------
+# Reports List (Admin Only)
+# -------------------------------
+@admin_bp.route("/reports")
 @login_required
-def admin_reports():
-    if not current_user.is_admin:
-        return "Unauthorized", 403
-
+@admin_required
+def list_reports():
     reports = Report.query.order_by(Report.created_at.desc()).all()
     return render_template("admin_reports.html", reports=reports)
+
+# -------------------------------
+# Rename Report (Admin Only)
+# -------------------------------
+@admin_bp.route("/reports/<int:report_id>/rename", methods=["POST"])
+@login_required
+@admin_required
+def rename_report(report_id):
+    new_filename = request.form.get("new_filename", "").strip()
+
+    if not new_filename:
+        flash("Filename cannot be empty.", "error")
+        return redirect(url_for("admin.list_reports"))
+
+    # Append .html if not present
+    if not new_filename.lower().endswith(".html"):
+        new_filename += ".html"
+
+    report = Report.query.get_or_404(report_id)
+    reports_dir = os.path.abspath(os.path.join(current_app.root_path, "..", "reports"))
+    old_path = os.path.join(reports_dir, report.filename)
+    new_path = os.path.join(reports_dir, new_filename)
+
+    if not os.path.exists(old_path):
+        flash("Original file does not exist.", "error")
+        return redirect(url_for("admin.list_reports"))
+
+    if os.path.exists(new_path):
+        flash("A file with that name already exists.", "error")
+        return redirect(url_for("admin.list_reports"))
+
+    try:
+        os.rename(old_path, new_path)
+    except Exception as e:
+        flash(f"Error renaming file: {e}", "error")
+        return redirect(url_for("admin.list_reports"))
+
+    try:
+        report.filename = new_filename
+        db.session.commit()
+        flash("Report renamed successfully.", "success")
+    except Exception as e:
+        db.session.rollback()
+        flash(f"Database error: {e}", "error")
+
+    return redirect(url_for("admin.list_reports"))
+
+# -------------------------------
+# Delete Report (Admin Only)
+# -------------------------------
+@admin_bp.route("/reports/<int:report_id>/delete", methods=["POST"])
+@login_required
+@admin_required
+def delete_report(report_id):
+    report = Report.query.get_or_404(report_id)
+
+    reports_dir = os.path.abspath(os.path.join(current_app.root_path, "..", "reports"))
+    file_path = os.path.join(reports_dir, report.filename)
+
+    try:
+        if os.path.exists(file_path):
+            os.remove(file_path)
+
+        db.session.delete(report)
+        db.session.commit()
+        flash("Report deleted successfully.", "success")
+    except Exception as e:
+        db.session.rollback()
+        flash(f"Error deleting report: {e}", "error")
+
+    return redirect(url_for("admin.list_reports"))
