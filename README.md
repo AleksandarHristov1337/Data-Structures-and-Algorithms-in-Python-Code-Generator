@@ -148,5 +148,8 @@ This project is licensed under the **MIT License**.
 ## EXAMPLE ENV 
 GOOGLE_API_KEY=your_api_key_here
 MODEL_NAME=gemini-2.0-flash-001
-FLASK_SECRET_KEY=your_secret_key
-DATABASE_URL=postgresql+psycopg2://user:pass@localhost/dbname
+FLASK_SECRET_KEY=supersecretkey
+DATABASE_URL=postgresql+psycopg2://postgres:yourpassword@localhost/yourdbname
+SUPERUSER_PASSWORD=not_used_right_now
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=secureadminpass
