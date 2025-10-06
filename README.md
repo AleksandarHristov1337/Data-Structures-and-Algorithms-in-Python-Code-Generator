@@ -145,11 +145,27 @@ This project is licensed under the **MIT License**.
 * Powered by [🌟 Google Gemini AI](https://developers.generativeai.google/)
 ---
 
-## EXAMPLE ENV 
+## Environment Variables
+
+Create a `.env` file in your project root with the following variables:
+
+```env
+# Your Google API key for accessing Google services
 GOOGLE_API_KEY=your_api_key_here
+
+# The name of the AI model to use
 MODEL_NAME=gemini-2.0-flash-001
+
+# Secret key for Flask session management and security
 FLASK_SECRET_KEY=supersecretkey
+
+# PostgreSQL database connection URL (adjust username, password, host, dbname)
 DATABASE_URL=postgresql+psycopg2://postgres:yourpassword@localhost/yourdbname
+
+# Superuser password (currently not used)
 SUPERUSER_PASSWORD=not_used_right_now
+
+# Admin account credentials
 ADMIN_USERNAME=admin
 ADMIN_PASSWORD=secureadminpass
+
